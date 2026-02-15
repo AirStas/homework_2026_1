@@ -24,4 +24,29 @@ QUnit.module('Тестируем функцию filterObjectByKeys', () => {
 
         assert.deepEqual(result, { a: 1 }, 'Отсутствующие ключи должны быть проигнорированы');
     });
+
+    QUnit.test('Работает правильно с глубокой копией', (assert) => {
+        const originalObject = { a: 1, b: { c: { e: 4 }, d: 3 } };
+        const keysToFilter = ['b'];
+        const result = filterObjectByKeys(originalObject, keysToFilter);
+
+        // Проверяем, что вложенный объект был скопирован глубоко
+        assert.deepEqual(result, { b: { c: { e: 4 }, d: 3 } }, 'Вложенные объекты должны быть скопированы');
+        result.b.c.e = 5; // Изменяем вложенный объект
+        assert.deepEqual(originalObject, { a: 1, b: { c: { e: 4 }, d: 3 } }, 'Оригинальный объект не должен измениться');
+    });
+
+
+    // Негативные тесты
+    QUnit.test('Работает правильно с не объектами', (assert) => {
+        const result1 = filterObjectByKeys(null, ['a']);
+        const result2 = filterObjectByKeys(42, ['a']);
+        const result3 = filterObjectByKeys('string', ['a']);
+        const result4 = filterObjectByKeys(undefined, ['a']);
+
+        assert.deepEqual(result1, {}, 'null должен возвращать пустой объект');
+        assert.deepEqual(result2, {}, 'Число должно возвращать пустой объект');
+        assert.deepEqual(result3, {}, 'Строка должна возвращать пустой объект');
+        assert.deepEqual(result4, {}, 'undefined должен возвращать пустой объект');
+    });
 });
