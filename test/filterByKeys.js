@@ -25,6 +25,16 @@ QUnit.module('Тестируем функцию filterObjectByKeys', () => {
         assert.deepEqual(result, { a: 1 }, 'Отсутствующие ключи должны быть проигнорированы');
     });
 
+    QUnit.test('Работает правильно с массивом', (assert) => {
+        const originalObject = { a: 1, b: [1, 2, 3, 4, 5] };
+        const keysToFilter = ['a', 'b'];
+        const result = filterObjectByKeys(originalObject, keysToFilter);
+
+        assert.deepEqual(result, { a: 1, b: [1, 2, 3, 4, 5] }, 'Массив должен быть скопирован');
+        result.b[0] = 999; // Изменяем элемент массива
+        assert.deepEqual(originalObject, { a: 1, b: [1, 2, 3, 4, 5] }, 'Оригинальный массив не должен измениться');
+    });
+
     QUnit.test('Работает правильно с глубокой копией', (assert) => {
         const originalObject = { a: 1, b: { c: { e: 4 }, d: 3 } };
         const keysToFilter = ['b'];

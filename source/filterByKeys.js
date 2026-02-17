@@ -14,21 +14,15 @@
  */
 const deepCopy = function(source)
 {
-    // Если значение является примитивом, возвращаем его напрямую
-    if (source === null || typeof source !== 'object')
+    // Если значение является примитиво или функцией, возвращаем его напрямую
+    if (source === null || typeof source === 'function' || typeof source !== 'object')
         return source;
 
-    // Если значение является массивом, создаем новый массив и копируем элементы
+    // Если значение является массивом, к каждому элементу применяем глубокое копирование
     if (Array.isArray(source))
-    {
-        const copy = [];
-        for (let i = 0; i < source.length; i++)
-            copy[i] = deepCopy(source[i]);
+        return source.map(deepCopy);
 
-        return copy;
-    }
-
-    // Если значение является объектом, создаем новый объект и копируем свойства
+    // Если значение является объектом, создаем новый объект и глубоко копируем свойства
     const copy = {};
     for (let key of Object.keys(source))
         copy[key] = deepCopy(source[key]);
