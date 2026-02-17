@@ -47,16 +47,10 @@ const filterObjectByKeys = (obj, keys) => {
     if (obj === null || typeof obj !== 'object' || !Array.isArray(keys))
         return {};
 
-    // Создаем пустой объект для результата
-    let result = {};
-
-    // Пробегаем по массиву ключей
-    for (let key of keys)
-    {
-        // Если ключ в исходном объекте, глубоко копируем значение в результат
+    // Возвращаем новый объект, содержащий только указанные ключи, с глубоким копированием значений
+    return keys.reduce((result, key) => {
         if (key in obj)
             result[key] = deepCopy(obj[key]);
-    }
-
-    return result;
+        return result;
+    }, {});
 };
