@@ -12,8 +12,7 @@
  * copy.b.c = 3;
  * console.log(obj.b.c); // 2 (оригинал не изменился)
  */
-const deepCopy = function(source)
-{
+const deepCopy = (source) => {
     // Если значение является примитиво или функцией, возвращаем его напрямую
     if (source === null || typeof source === 'function' || typeof source !== 'object')
         return source;
@@ -43,8 +42,7 @@ const deepCopy = function(source)
  * const filtered = filterObjectByKeys(obj, ['a']);
  * console.log(filtered); // { a: 1 }
  */
-const filterObjectByKeys = function(obj, keys)
-{
+const filterObjectByKeys = (obj, keys) => {
     // Проверяем входные данные
     if (obj === null || typeof obj !== 'object' || !Array.isArray(keys))
         return {};
